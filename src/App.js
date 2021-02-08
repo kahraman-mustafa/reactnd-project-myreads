@@ -4,8 +4,12 @@ import './App.css'
 import {Route} from "react-router-dom"
 import LinkButton from './LinkButton.js'
 import Book from "./Book.js"
+import Shelf from "./Shelf.js"
 
 class BooksApp extends React.Component {
+
+  shelves = ["Şu An Okunanlar", "Okunacaklar", "Okuduklarım"]
+
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -86,46 +90,13 @@ class BooksApp extends React.Component {
               </div>
               <div className="list-books-content">
                 <div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Şu An Okunanlar</h2>
-                    <div className="bookshelf-books">
-                      <ol className="books-grid">
-                        {this.state.myBooks
-                          .filter((book) => (book.shelf === "Şu An Okunanlar"))
-                          .map((book) => (<Book book={book} key={book.id}/>))}
-                      </ol>
-                    </div>
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Okunacaklar</h2>
-                    <div className="bookshelf-books">
-                      <ol className="books-grid">
-                        {this.state.myBooks
-                          .filter((book) => (book.shelf === "Okunacaklar"))
-                          .map((book) => (<Book book={book} key={book.id}/>))}
-                      </ol>
-                    </div>
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Okuduklarım</h2>
-                    <div className="bookshelf-books">
-                      <ol className="books-grid">
-                        {this.state.myBooks
-                          .filter((book) => (book.shelf === "Okuduklarım"))
-                          .map((book) => (<Book book={book} key={book.id}/>))}
-                      </ol>
-                    </div>
-                  </div>
+                  {this.shelves.map((shelf) => (
+                    <Shelf key={shelf} myBooks={this.state.myBooks} shelf={shelf}/>
+                  ))}
                 </div>
               </div>
               <div className="open-search">
-                <LinkButton
-                  to='/search'
-                  onClick = {
-                      (event) => {
-                    console.log('custom event here!', event)
-                  }}
-                >Add a Book</LinkButton>
+                <LinkButton to='/search'>Add a Book</LinkButton>
               </div>
             </div>
         )} />
