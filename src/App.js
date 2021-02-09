@@ -21,6 +21,8 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
+    // When application first open, page refreshed; data of books saved to library on backend server is fetched
+    console.log("componentDidMount is called")
     BooksAPI.getAll().then((books) => {
       this.setState(() => (
         {
@@ -34,6 +36,19 @@ class BooksApp extends React.Component {
     })
   }
 
+  /**
+   * When a user changes shelf property of a book, this method gets called
+   * @param {*} updatedBook 
+   */
+  onShelfUpdate = (updatedBook) => {
+    const unchangedBooks = this.state.myBooks.filter((book) => (book.id !== updatedBook.id));
+    this.setState(() => (
+      {
+        myBooks: unchangedBooks.concat(updatedBook)
+      }
+    ))
+  }
+
   render() {
     return (
       <div className="app">
@@ -45,7 +60,7 @@ class BooksApp extends React.Component {
               <div className="list-books-content">
                 <div>
                   {this.shelves.map((shelf) => (
-                    <Shelf key={shelf} myBooks={this.state.myBooks} shelf={shelf}/>
+                    <Shelf key={shelf} myBooks={this.state.myBooks} shelf={shelf} onShelfUpdate={this.onShelfUpdate}/>
                   ))}
                 </div>
               </div>

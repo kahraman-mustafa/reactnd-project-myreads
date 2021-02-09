@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 import Book from "./Book.js"
 
 const Shelf = (props) => {
+
+    const onShelfUpdate = (book) => {
+        props.onShelfUpdate(book);
+    }
+
     const {myBooks, shelf} = props
+
     return (
         <div className="bookshelf">
             <h2 className="bookshelf-title">{shelf}</h2>
@@ -12,7 +18,7 @@ const Shelf = (props) => {
                     {
                         myBooks
                             .filter((book) => (book.shelf === shelf))
-                            .map((book) => (<Book book={book} key={book.id}/>))
+                            .map((book) => (<Book book={book} key={book.id} onShelfUpdate={onShelfUpdate}/>))
                     }
                 </ol>
             </div>
@@ -22,7 +28,8 @@ const Shelf = (props) => {
 
   Shelf.propTypes = {
     myBooks: PropTypes.array.isRequired,
-    shelf: PropTypes.string.isRequired
+    shelf: PropTypes.string.isRequired,
+    onShelfUpdate: PropTypes.func.isRequired
   }
 
 export default Shelf;
