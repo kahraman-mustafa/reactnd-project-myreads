@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Book = (props) => {
-    const {imageUrl, title, authors} = props.book
+    const {title, authors} = props.book;
+    const thumbnailUrl = props.book.imageLinks.thumbnail;
     return (
         <li>
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${imageUrl})` }}></div>
+                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${thumbnailUrl})` }}></div>
                     <div className="book-shelf-changer">
                     <select>
                         <option value="move" disabled>Move to...</option>
