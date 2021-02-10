@@ -35,7 +35,7 @@ class Book extends React.Component {
 
     render() {
         const {title, authors} = this.props.book;
-        const thumbnailUrl = this.props.book.imageLinks.thumbnail;
+        const thumbnailUrl = this.props.book.hasOwnProperty("imageLinks") ? this.props.book.imageLinks.thumbnail : "No Image";
 
         return (
             <li>
@@ -53,7 +53,7 @@ class Book extends React.Component {
                         </div>
                     </div>
                     <div className="book-title">{title}</div>
-                    <div className="book-authors">{authors.toString()}</div>
+                    <div className="book-authors">{authors ? ((authors.length > 1) ? authors.join(" & ") : authors[0]) : " - "}</div>
                 </div>
             </li>
         )
