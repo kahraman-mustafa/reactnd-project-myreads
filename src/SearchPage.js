@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useReducer } from 'react';
 import LinkButton from './LinkButton.js';
 import PropTypes from 'prop-types';
 import Book from './Book.js';
@@ -6,57 +6,67 @@ import * as BooksAPI from './BooksAPI.js';
 import { debounce } from "lodash";
 
 
+const initialState = {
+    query: ""
+}
+
+function reducer(state, { field, value }) {
+    return {
+        ...state,
+        [field]: value
+    }
+}
+
 function SearchPage(props) {
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     const [foundBooks, setFoundBooks] = useState([]);
-    const [query, setQuery] = useState("");
 
     // highlight-starts
-    delayedQuery = useCallback(
-        debounce(e => console.log('Debounced Input:', e.target.value), 1000),
+    const delayedOnChangeQuery = useCallback(
+        debounce(e => {
+            dispatch({ field: e.target.name, value: e.target.value.trim() });
+            console.log('Debounced Input:', e.target.value.trim());
+            console.log('Query State:', state.query);
+            /*
+            clearResults();
+
+            if (state.query !== "") {
+                BooksAPI.search(state.query).then((searchResults) => {
+                    if (typeof (searchResults) === "undefined") {
+                        clearResults();
+                    } else if (typeof (searchResults) === "object") {
+                        if (searchResults.hasOwnProperty("error")) {
+                            clearResults();
+                        } else {
+                            console.log("results", searchResults);
+                            setFoundBooks(searchResults);
+                        }
+                    }
+                })
+            } else {
+                clearResults();
+            }*/
+        }, 1000),
         [], // will be created only once initially
     );
     // highlight-ends
 
-    onShelfUpdate = (book) => {
+    const onShelfUpdate = (book) => {
         props.onShelfUpdate(book);
     }
 
-    clearResults = () => {
+    const clearResults = () => {
         setFoundBooks([]);
     }
 
-    onChangeSearchQuery = (event) => {
-        console.log("event: ", event.target.value);
-        setQuery(event.target.value.trim());
-        delayedQuery(event);
-        /*
-        console.log("input: ", event.target.value.trim())
-        this.clearResults();
-        this.setState({ searchQuery: event.target.value.trim() })
-
-        if (this.state.searchQuery !== "") {
-            BooksAPI.search(this.state.searchQuery).then((searchResults) => {
-                if (typeof (searchResults) === "undefined") {
-                    this.clearResults();
-                } else if (typeof (searchResults) === "object") {
-                    if (searchResults.hasOwnProperty("error")) {
-                        this.clearResults();
-                    } else {
-                        console.log("results", searchResults)
-                        this.setState(() => (
-                            {
-                                foundBooks: searchResults
-                            }
-                        ));
-                    }
-                }
-            })
-        } else {
-            this.clearResults()
-        }
-        */
+    const onChangeQuery = (e) => {
+        console.log('Input:', e.target.value);
+        dispatch({ field: e.target.name, value: e.target.value });
+        delayedOnChangeQuery(e)
     }
+
+    const { query } = state
 
     return (
         <div className="search-books">
@@ -71,7 +81,7 @@ function SearchPage(props) {
                     However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                     you don't find a specific author or title. Every search is limited by search terms.
                     */}
-                    <input type="text" placeholder="Search by title or author" value={query} onChange={onChangeSearchQuery} />
+                    <input name="query" type="text" placeholder="Search by title or author" value={query} onChange={onChangeQuery} />
 
                 </div>
             </div>
@@ -79,7 +89,7 @@ function SearchPage(props) {
                 <ol className="books-grid">
                     {
                         (foundBooks.length > 0 && query !== "")
-                            ? (foundBooks.map((book) => (<Book book={book} onShelfUpdate={this.onShelfUpdate} key={book.id} />)))
+                            ? (foundBooks.map((book) => (<Book book={book} onShelfUpdate={onShelfUpdate} key={book.id} />)))
                             : ("No results to show")
                     }
                 </ol>
