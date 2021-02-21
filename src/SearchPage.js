@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState, useCallback, useReducer } from 'react';
 import LinkButton from './LinkButton.js';
 import PropTypes from 'prop-types';
 import Book from './Book.js';
@@ -6,94 +6,94 @@ import * as BooksAPI from './BooksAPI.js';
 import { debounce } from "lodash";
 
 
-class SearchPage extends React.Component {
+const initialState = {
+    query: ""
+}
 
-    state = {
-        foundBooks: [],
-        searchQuery: ""
+function reducer(state, { field, value }) {
+    return {
+        ...state,
+        [field]: value
     }
+}
 
-    clearResults = () => {
-        this.setState({ foundBooks: [] })
-    }
+function SearchPage(props) {
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-    onShelfUpdate = (book) => {
-        this.props.onShelfUpdate(book);
-    }
+    const [foundBooks, setFoundBooks] = useState([]);
 
-    onChangeSearchQuery = (event) => {
-        this.delayedOnChangeQuery(event);
-    }
-
-    delayedOnChangeQuery = useCallback(
+    // highlight-starts
+    const delayedOnChangeQuery = useCallback(
         debounce(e => {
-            console.log("event: ", e.target);
-            this.delayedFunction(e.target.value);
+            dispatch({ field: e.target.name, value: e.target.value.trim() });
+            console.log('Debounced Input:', e.target.value.trim());
+            console.log('Query State:', state.query);
+            /*
+            clearResults();
+            if (state.query !== "") {
+                BooksAPI.search(state.query).then((searchResults) => {
+                    if (typeof (searchResults) === "undefined") {
+                        clearResults();
+                    } else if (typeof (searchResults) === "object") {
+                        if (searchResults.hasOwnProperty("error")) {
+                            clearResults();
+                        } else {
+                            console.log("results", searchResults);
+                            setFoundBooks(searchResults);
+                        }
+                    }
+                })
+            } else {
+                clearResults();
+            }*/
         }, 1000),
         [], // will be created only once initially
     );
+    // highlight-ends
 
-
-    delayedFunction = (inputEntered) => {
-
-        this.clearResults();
-        this.setState({ searchQuery: inputEntered.trim() });
-        console.log("input: ", inputEntered.trim())
-
-        if (this.state.searchQuery !== "") {
-            BooksAPI.search(this.state.searchQuery).then((searchResults) => {
-                if (typeof (searchResults) === "undefined") {
-                    this.clearResults();
-                } else if (typeof (searchResults) === "object") {
-                    if (searchResults.hasOwnProperty("error")) {
-                        this.clearResults();
-                    } else {
-                        console.log("results", searchResults)
-                        this.setState(() => (
-                            {
-                                foundBooks: searchResults
-                            }
-                        ));
-                    }
-                }
-            })
-        } else {
-            this.clearResults()
-        }
-
+    const onShelfUpdate = (book) => {
+        props.onShelfUpdate(book);
     }
 
-    render() {
+    const clearResults = () => {
+        setFoundBooks([]);
+    }
 
-        return (
-            <div className="search-books">
-                <div className="search-books-bar">
-                    <LinkButton to='/' className="close-search">Add a Book</LinkButton>
-                    <div className="search-books-input-wrapper">
-                        {/*
-                        NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                        You can find these search terms here:
-                        https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
+    const onChangeQuery = (e) => {
+        console.log('Input:', e.target.value);
+        dispatch({ field: e.target.name, value: e.target.value });
+        delayedOnChangeQuery(e)
+    }
 
-                        However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                        you don't find a specific author or title. Every search is limited by search terms.
-                        */}
-                        <input type="text" placeholder="Search by title or author" value={this.state.searchQuery} onChange={this.onChangeSearchQuery} />
+    const { query } = state
 
-                    </div>
-                </div>
-                <div className="search-books-results">
-                    <ol className="books-grid">
-                        {
-                            (this.state.foundBooks.length > 0 && this.state.searchQuery !== "")
-                                ? (this.state.foundBooks.map((book) => (<Book book={book} onShelfUpdate={this.onShelfUpdate} key={book.id} />)))
-                                : ("No results to show")
-                        }
-                    </ol>
+    return (
+        <div className="search-books">
+            <div className="search-books-bar">
+                <LinkButton to='/' className="close-search">Add a Book</LinkButton>
+                <div className="search-books-input-wrapper">
+                    {/*
+                    NOTES: The search from BooksAPI is limited to a particular set of search terms.
+                    You can find these search terms here:
+                    https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
+                    However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
+                    you don't find a specific author or title. Every search is limited by search terms.
+                    */}
+                    <input name="query" type="text" placeholder="Search by title or author" value={query} onChange={onChangeQuery} />
+
                 </div>
             </div>
-        );
-    }
+            <div className="search-books-results">
+                <ol className="books-grid">
+                    {
+                        (foundBooks.length > 0 && query !== "")
+                            ? (foundBooks.map((book) => (<Book book={book} onShelfUpdate={onShelfUpdate} key={book.id} />)))
+                            : ("No results to show")
+                    }
+                </ol>
+            </div>
+        </div>
+    );
 }
 
 SearchPage.propTypes = {
