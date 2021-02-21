@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { debounce } from "lodash";
+import { debounce, result } from "lodash";
 import SearchBar from "./SearchBar.js"
 import * as BooksAPI from "../../BooksAPI.js";
 import SearchResults from './SearchResults.js';
 
 function SearchPage(props) {
+
+    const {myBooks} = props;
 
     const [foundBooks, setFoundBooks] = useState([]);
     
@@ -14,7 +16,7 @@ function SearchPage(props) {
     }
 
     const delayedOnChangeQuery = useCallback(
-        debounce(e => {
+        debounce((e, myBooks) => {
             const debouncedQuery = e.target.value.trim();
 
             if (debouncedQuery !== "") {
@@ -27,7 +29,18 @@ function SearchPage(props) {
                             // if searchResults object has errors, show nothing
                             clearResults();
                         } else {
-                            setFoundBooks(searchResults);
+                            const shelvedSearchResults = [];
+                            for(const result of searchResults){
+                                result.shelf = "none";
+                                for(const myBook of myBooks){
+                                    if(result.id === myBook.id){
+                                        result.shelf = myBook.shelf;
+                                        break;
+                                    }
+                                }
+                                shelvedSearchResults.push(result);
+                            }
+                            setFoundBooks(shelvedSearchResults);
                         }
                     }
                 })
@@ -44,7 +57,7 @@ function SearchPage(props) {
     }
 
     const onChangeQuery = (e) => {
-        delayedOnChangeQuery(e);
+        delayedOnChangeQuery(e, myBooks);
     }
 
     return (
@@ -56,6 +69,7 @@ function SearchPage(props) {
 }
 
 SearchPage.propTypes = {
+    myBooks: PropTypes.array.isRequired,
     onShelfUpdate: PropTypes.func.isRequired
 }
 

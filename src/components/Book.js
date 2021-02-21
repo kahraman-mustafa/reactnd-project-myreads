@@ -7,7 +7,7 @@ class Book extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            shelf: props.book.hasOwnProperty("shelf") ? props.book.shelf : "none"
+            shelf: props.book.shelf
         }
     }
 
@@ -21,7 +21,6 @@ class Book extends React.Component {
         ));
 
         BooksAPI.update(this.props.book, newShelf).then((res) => {
-            //console.log("BooksAPI.update succesful", res)
             //replace book object's shelf property with new one to update myBooks state in App.js
             const book = this.props.book;
             book.shelf = newShelf;
