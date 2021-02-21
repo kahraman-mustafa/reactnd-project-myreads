@@ -7,7 +7,7 @@ class Book extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            shelf: props.book.shelf
+            shelf: props.book.hasOwnProperty("shelf") ? props.book.shelf : "none"
         }
     }
 

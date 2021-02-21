@@ -31,6 +31,7 @@ function SearchPage(props) {
                             // if searchResults object has errors, show nothing
                             clearResults();
                         } else {
+                            console.log('Results:', searchResults)
                             setFoundBooks(searchResults);
                         }
                     }
