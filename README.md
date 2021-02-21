@@ -21,6 +21,18 @@ To get started developing right away:
 │   ├── favicon.ico # React Icon, You may change if you wish.
 │   └── index.html # DO NOT MODIFY
 └── src
+    |   ## Components added by Mustafa Kahraman
+    ├── components # root directory of all components added by Mustafa Kahraman
+    |   ├── LibraryPage # directory for holding LibraryPage components
+    |   |   ├── LibraryPage.js
+    |   |   ├── Shelf.js
+    |   ├── SearchPage # directory for holding SearchPage components
+    |   |   ├── SearchPage.js
+    |   |   ├── SearchBar.js
+    |   |   ├── SearchResults.js
+    |   ├── Book.js # component holding Book properties and shelf state of the book and update method call to update shelf property on both App state and backend when it is changed
+    │   └── LinkButton.js # added to comply with css style of button while using react-router Link component
+    |   ##
     ├── App.css # Styles for your app. Feel free to customize this as you desire.
     ├── App.js # This is the root of your app. Contains static HTML right now.
     ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.

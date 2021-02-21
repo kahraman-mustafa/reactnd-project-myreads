@@ -2,9 +2,8 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import {Route} from "react-router-dom"
-import LinkButton from './LinkButton.js'
-import MyLibrary from './MyLibrary.js'
-import SearchPage from './SearchPage.js'
+import LibraryPage from './components/LibraryPage/LibraryPage.js'
+import SearchPage from './components/SearchPage/SearchPage.js'
 
 class BooksApp extends React.Component {
 
@@ -20,7 +19,6 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     // When application first open, page refreshed; data of books saved to library on backend server is fetched
-    console.log("componentDidMount is called")
     BooksAPI.getAll().then((books) => {
       this.setState(() => (
         {
@@ -28,10 +26,6 @@ class BooksApp extends React.Component {
         }
       ));
     });
-
-    BooksAPI.search("Tolstoy", "10").then((booksTolstoy) => {
-      console.log("Search Tolstoy:", booksTolstoy)
-    })
   }
 
   /**
@@ -51,7 +45,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <MyLibrary 
+          <LibraryPage 
             myBooks={this.state.myBooks} 
             onShelfUpdate={this.onShelfUpdate} />
         )} />

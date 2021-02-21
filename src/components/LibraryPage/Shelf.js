@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Book from "./Book.js"
+import Book from "../Book.js"
 
 const Shelf = (props) => {
 

@@ -1,9 +1,9 @@
 import React from 'react'
-import LinkButton from './LinkButton.js'
+import LinkButton from '../LinkButton.js'
 import Shelf from "./Shelf.js"
 import PropTypes from 'prop-types'
 
-const MyLibrary = (props) => {
+const LibraryPage = (props) => {
 
     const shelves = ["currentlyReading", "wantToRead", "read"]
 
@@ -32,9 +32,9 @@ const MyLibrary = (props) => {
     )
   }
 
-  MyLibrary.propTypes = {
+  LibraryPage.propTypes = {
     myBooks: PropTypes.array.isRequired,
     onShelfUpdate: PropTypes.func.isRequired
   }
 
-export default MyLibrary;
+export default LibraryPage;

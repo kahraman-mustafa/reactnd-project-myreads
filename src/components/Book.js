@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import * as BooksAPI from './BooksAPI.js'
+import * as BooksAPI from "../BooksAPI.js"
 
 class Book extends React.Component {
 
@@ -21,7 +21,7 @@ class Book extends React.Component {
         ));
 
         BooksAPI.update(this.props.book, newShelf).then((res) => {
-            console.log("BooksAPI.update succesful", res)
+            //console.log("BooksAPI.update succesful", res)
             //replace book object's shelf property with new one to update myBooks state in App.js
             const book = this.props.book;
             book.shelf = newShelf;
@@ -35,7 +35,8 @@ class Book extends React.Component {
 
     render() {
         const {title, authors} = this.props.book;
-        const thumbnailUrl = this.props.book.hasOwnProperty("imageLinks") ? this.props.book.imageLinks.thumbnail : "No Image";
+        // if no image provided, default book icon is displayed in the thumbnail
+        const thumbnailUrl = this.props.book.hasOwnProperty("imageLinks") ? this.props.book.imageLinks.thumbnail : "https://www.flaticon.com/svg/vstatic/svg/531/531530.svg?token=exp=1613902376~hmac=ca437a804067a6138fdebd7fb1b55b1f";
 
         return (
             <li>
@@ -53,7 +54,7 @@ class Book extends React.Component {
                         </div>
                     </div>
                     <div className="book-title">{title}</div>
-                    <div className="book-authors">{authors ? ((authors.length > 1) ? authors.join(" & ") : authors[0]) : " - "}</div>
+                    <div className="book-authors">{authors ? ((authors.length > 1) ? authors.join(" & ") : authors[0]) : <span>--No Auther Info--</span>}</div>
                 </div>
             </li>
         )
