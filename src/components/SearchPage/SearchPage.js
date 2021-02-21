@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { debounce, result } from "lodash";
+import { debounce } from "lodash";
 import SearchBar from "./SearchBar.js"
 import * as BooksAPI from "../../BooksAPI.js";
 import SearchResults from './SearchResults.js';
@@ -48,7 +48,7 @@ function SearchPage(props) {
                 // if search query is empty, show nothing
                 clearResults();
             }
-        }, 750),
+        }, 400),
         [], // will be created only once initially
     );
 
