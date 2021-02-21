@@ -1,0 +1,149 @@
+[33mcommit e0d9983ade2f082765c11dc87c9f7cade0bb7729[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: kahraman-mustafa <33468930+kahraman-mustafa@users.noreply.github.com>
+Date:   Wed Feb 10 09:13:51 2021 +0300
+
+    ongoing: Search page results display
+
+[33mcommit 4745f19f748c6e456c7dfb266af10961d3b6b7e6[m
+Author: kahraman-mustafa <33468930+kahraman-mustafa@users.noreply.github.com>
+Date:   Wed Feb 10 01:37:43 2021 +0300
+
+    feature: Library component is added
+
+[33mcommit 43d316448e105d66376170044d251f1ee35b63d0[m
+Author: kahraman-mustafa <33468930+kahraman-mustafa@users.noreply.github.com>
+Date:   Wed Feb 10 01:28:02 2021 +0300
+
+    feature: Shelf changing of books in the library and updating on the backend server using BooksAPI.update is handled
+
+[33mcommit a0ec1271a832aa5803da3a7c53af50e8ad96eda2[m
+Author: kahraman-mustafa <33468930+kahraman-mustafa@users.noreply.github.com>
+Date:   Tue Feb 9 23:41:44 2021 +0300
+
+    feature: Static myBooks state data is removed and is initialized in componentDidUpdate callback via BooksAPI.getAll method call
+
+[33mcommit 60091f056927ef7e07a4b1608ebe5a69560657a9[m
+Author: kahraman-mustafa <33468930+kahraman-mustafa@users.noreply.github.com>
+Date:   Tue Feb 9 01:35:08 2021 +0300
+
+    feature: Seperate html parts for each shelf are converted to one by using shelves array and by creating Shelf component
+
+[33mcommit 3336eae191b961a8f78785fc4b308842e6e50f1c[m
+Author: kahraman-mustafa <33468930+kahraman-mustafa@users.noreply.github.com>
+Date:   Tue Feb 9 01:13:43 2021 +0300
+
+    feature: Seperate list items for Book components are replaced by moving book information to state and using array filter and map functions
+
+[33mcommit 11d7951ed62ee1293805f52fbd4744e4f64ccba9[m
+Author: kahraman-mustafa <33468930+kahraman-mustafa@users.noreply.github.com>
+Date:   Mon Feb 8 23:41:51 2021 +0300
+
+    feature: Book.js created, book html parts are converted to Book component
+
+[33mcommit afced4da80a39db65327446c86b7c0e3cabd19ac[m
+Author: kahraman-mustafa <33468930+kahraman-mustafa@users.noreply.github.com>
+Date:   Mon Feb 8 23:16:41 2021 +0300
+
+    feature: React routers are added instead os using state to navigate.
+
+[33mcommit 765a8f8792f1b2ee2346bc781d7dfefdc170eccc[m
+Author: 01005819 <01005819@BL0LOJDAI073.tasimacilik.tcdd>
+Date:   Mon Feb 8 15:47:02 2021 +0300
+
+    test: Logging BooksAPI getAll and search functions and print book object
+
+[33mcommit 640caecf381257304e770ce9e5f97be9e51961ec[m
+Merge: 0d622b9 afab1b4
+Author: Shubham Tomar <tomarshubham24@gmail.com>
+Date:   Mon Feb 3 12:44:18 2020 +0530
+
+    Merge pull request #116 from jpventura/refactor/issue-115
+    
+    Ignore automatic files
+
+[33mcommit afab1b4b9c628b34a1ad33ec7b7e49348f605c31[m
+Author: JP Ventura <contact@jpventura.com>
+Date:   Mon Jan 20 14:45:40 2020 -0300
+
+    chore: Ignore JetBrains automatic files
+
+[33mcommit ed12666c2918121568ae4b135d56acf4c52180dd[m
+Author: JP Ventura <contact@jpventura.com>
+Date:   Tue Jan 21 14:34:28 2020 -0300
+
+    chore: Ignore Emacs automatic files
+
+[33mcommit a53955576f16dcba82a58690fab87890546e8134[m
+Author: JP Ventura <contact@jpventura.com>
+Date:   Thu Jan 16 03:53:26 2020 -0300
+
+    chore: Ignore Node.js automatic files
+    
+    References:
+    
+      - A collection of useful .gitignore templates
+        https://github.com/github/gitignore
+
+[33mcommit 0d622b93fa02d06d15234a83f27b84b677c5a627[m
+Author: Veronika Benkeser <veronika.benkeser@gmail.com>
+Date:   Fri Nov 16 15:39:15 2018 -0800
+
+    Updated dependencies and button styles
+
+[33mcommit 58025aed706e4e08d496b088849dc1e1dd742a87[m
+Author: Veronika Benkeser <veronika.benkeser@gmail.com>
+Date:   Tue Nov 13 14:24:54 2018 -0800
+
+    Removed yarn.lock from the gitignore file.
+
+[33mcommit 456b9c8a47e96e3b728964aa0aab183a59c2943c[m
+Author: Veronika Benkeser <veronika.benkeser@gmail.com>
+Date:   Wed Jun 6 16:37:06 2018 -0700
+
+    Changed the value of the move option.
+
+[33mcommit 45c8f3d470663d9273d02b9871f0fabd97413762[m
+Author: Thales Moreira Carvalho <thales.comp@gmail.com>
+Date:   Tue Apr 24 17:23:01 2018 -0300
+
+    Update versions
+
+[33mcommit 1dae1a98bd2cc7850666dd340d878b48179a05a0[m
+Merge: 4a0e224 158225c
+Author: Thales Moreira Carvalho <thales.comp@gmail.com>
+Date:   Tue Dec 5 17:20:13 2017 -0200
+
+    Merge pull request #44 from udacity/thalescomp-patch-2
+    
+    Update search method
+
+[33mcommit 4a0e224b994cf18b2cdc69574d925edc6bc1ffd6[m
+Merge: f55abf3 013af0b
+Author: Thales Moreira Carvalho <thales.comp@gmail.com>
+Date:   Tue Dec 5 17:20:02 2017 -0200
+
+    Merge pull request #43 from udacity/thalescomp-patch-1
+    
+    Update search method description
+
+[33mcommit 158225c24f05d132911053480e7b003b4b218833[m[33m ([m[1;31morigin/thalescomp-patch-2[m[33m)[m
+Author: Thales Moreira Carvalho <thales.comp@gmail.com>
+Date:   Tue Dec 5 17:15:43 2017 -0200
+
+    Update search method
+    
+    Update search method removing maxResults argument.
+
+[33mcommit 013af0b730ae30aa1429832581ab633f6fa2d31d[m[33m ([m[1;31morigin/thalescomp-patch-1[m[33m)[m
+Author: Thales Moreira Carvalho <thales.comp@gmail.com>
+Date:   Tue Dec 5 17:14:26 2017 -0200
+
+    Update search method description
+    
+    Update search method description removing maxResults infos
+
+[33mcommit f55abf3992c39430e29ef8d9fb49da09ec265201[m
+Author: Richard Kalehoff <richardkalehoff@gmail.com>
+Date:   Wed Aug 30 13:34:10 2017 -0700
+
+    Initial commit

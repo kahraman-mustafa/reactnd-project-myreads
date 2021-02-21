@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import LinkButton from './LinkButton.js';
 import PropTypes from 'prop-types';
 import Book from './Book.js';
@@ -6,34 +6,39 @@ import * as BooksAPI from './BooksAPI.js';
 import { debounce } from "lodash";
 
 
-function SearchPage(props) {
+class SearchPage extends React.Component {
 
-    const [foundBooks, setFoundBooks] = useState([]);
-    const [query, setQuery] = useState("");
-
-    // highlight-starts
-    delayedQuery = useCallback(
-        debounce(e => console.log('Debounced Input:', e.target.value), 1000),
-        [], // will be created only once initially
-    );
-    // highlight-ends
-
-    onShelfUpdate = (book) => {
-        props.onShelfUpdate(book);
+    state = {
+        foundBooks: [],
+        searchQuery: ""
     }
 
     clearResults = () => {
-        setFoundBooks([]);
+        this.setState({ foundBooks: [] })
+    }
+
+    onShelfUpdate = (book) => {
+        this.props.onShelfUpdate(book);
     }
 
     onChangeSearchQuery = (event) => {
-        console.log("event: ", event.target.value);
-        setQuery(event.target.value.trim());
-        delayedQuery(event);
-        /*
-        console.log("input: ", event.target.value.trim())
+        this.delayedOnChangeQuery(event);
+    }
+
+    delayedOnChangeQuery = useCallback(
+        debounce(e => {
+            console.log("event: ", e.target);
+            this.delayedFunction(e.target.value);
+        }, 1000),
+        [], // will be created only once initially
+    );
+
+
+    delayedFunction = (inputEntered) => {
+
         this.clearResults();
-        this.setState({ searchQuery: event.target.value.trim() })
+        this.setState({ searchQuery: inputEntered.trim() });
+        console.log("input: ", inputEntered.trim())
 
         if (this.state.searchQuery !== "") {
             BooksAPI.search(this.state.searchQuery).then((searchResults) => {
@@ -55,37 +60,40 @@ function SearchPage(props) {
         } else {
             this.clearResults()
         }
-        */
+
     }
 
-    return (
-        <div className="search-books">
-            <div className="search-books-bar">
-                <LinkButton to='/' className="close-search">Add a Book</LinkButton>
-                <div className="search-books-input-wrapper">
-                    {/*
-                    NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                    You can find these search terms here:
-                    https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
+    render() {
 
-                    However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                    you don't find a specific author or title. Every search is limited by search terms.
-                    */}
-                    <input type="text" placeholder="Search by title or author" value={query} onChange={onChangeSearchQuery} />
+        return (
+            <div className="search-books">
+                <div className="search-books-bar">
+                    <LinkButton to='/' className="close-search">Add a Book</LinkButton>
+                    <div className="search-books-input-wrapper">
+                        {/*
+                        NOTES: The search from BooksAPI is limited to a particular set of search terms.
+                        You can find these search terms here:
+                        https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
 
+                        However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
+                        you don't find a specific author or title. Every search is limited by search terms.
+                        */}
+                        <input type="text" placeholder="Search by title or author" value={this.state.searchQuery} onChange={this.onChangeSearchQuery} />
+
+                    </div>
+                </div>
+                <div className="search-books-results">
+                    <ol className="books-grid">
+                        {
+                            (this.state.foundBooks.length > 0 && this.state.searchQuery !== "")
+                                ? (this.state.foundBooks.map((book) => (<Book book={book} onShelfUpdate={this.onShelfUpdate} key={book.id} />)))
+                                : ("No results to show")
+                        }
+                    </ol>
                 </div>
             </div>
-            <div className="search-books-results">
-                <ol className="books-grid">
-                    {
-                        (foundBooks.length > 0 && query !== "")
-                            ? (foundBooks.map((book) => (<Book book={book} onShelfUpdate={this.onShelfUpdate} key={book.id} />)))
-                            : ("No results to show")
-                    }
-                </ol>
-            </div>
-        </div>
-    );
+        );
+    }
 }
 
 SearchPage.propTypes = {
