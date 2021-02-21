@@ -7,19 +7,15 @@ import SearchResults from './SearchResults.js';
 
 function SearchPage(props) {
 
-    //const [query, setQuery] = useState("");
-
     const [foundBooks, setFoundBooks] = useState([]);
     
     const onShelfUpdate = (book) => {
         props.onShelfUpdate(book);
     }
 
-    // highlight-starts
     const delayedOnChangeQuery = useCallback(
         debounce(e => {
             const debouncedQuery = e.target.value.trim();
-            console.log('Debounced Query:', debouncedQuery);
 
             if (debouncedQuery !== "") {
                 BooksAPI.search(debouncedQuery).then((searchResults) => {
@@ -31,7 +27,6 @@ function SearchPage(props) {
                             // if searchResults object has errors, show nothing
                             clearResults();
                         } else {
-                            console.log('Results:', searchResults)
                             setFoundBooks(searchResults);
                         }
                     }
@@ -43,15 +38,12 @@ function SearchPage(props) {
         }, 750),
         [], // will be created only once initially
     );
-    // highlight-ends
 
     const clearResults = () => {
         setFoundBooks([]);
     }
 
     const onChangeQuery = (e) => {
-        console.log('Query:', e.target.value);
-        //setQuery(e.target.value);
         delayedOnChangeQuery(e);
     }
 
